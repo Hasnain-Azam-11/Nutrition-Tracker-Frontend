@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { api, isAuthenticated } from './lib/api'
 import Auth from './components/Auth'
+import LandingPage from './components/LandingPage'
 import Dashboard from './components/Dashboard'
 import VoiceLogger from './components/VoiceLogger'
 import HistoryView from './components/HistoryView'
@@ -11,6 +12,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [currentTab, setCurrentTab] = useState('dashboard')
   const [refreshTrigger, setRefreshTrigger] = useState(0)
+  const [authMode, setAuthMode] = useState(null) // null, 'signin', 'signup'
 
   // Sync auth state on mount
   useEffect(() => {
@@ -20,6 +22,7 @@ function App() {
 
     const handleAuthExpired = () => {
       setCurrentUser(null)
+      setAuthMode(null)
       setCurrentTab('dashboard')
     };
 
@@ -32,12 +35,14 @@ function App() {
   const handleAuthSuccess = (user) => {
     localStorage.setItem('username', user.username)
     setCurrentUser(user)
+    setAuthMode(null)
     setCurrentTab('dashboard')
   }
 
   const handleLogout = () => {
     api.logout()
     setCurrentUser(null)
+    setAuthMode(null)
     setCurrentTab('dashboard')
   }
 
@@ -47,7 +52,16 @@ function App() {
   }
 
   if (!currentUser) {
-    return <Auth onAuthSuccess={handleAuthSuccess} />
+    if (!authMode) {
+      return <LandingPage onGetStarted={(mode) => setAuthMode(mode)} />
+    }
+    return (
+      <Auth 
+        initialIsSignUp={authMode === 'signup'} 
+        onAuthSuccess={handleAuthSuccess} 
+        onCancel={() => setAuthMode(null)} 
+      />
+    )
   }
 
   const getTabClass = (tab) => {

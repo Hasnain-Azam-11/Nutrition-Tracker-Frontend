@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { api } from '../lib/api'
-import { Mail, Lock, Activity, AlertCircle, ArrowRight, Sparkles, CheckCircle2, User } from 'lucide-react'
+import { Mail, Lock, Activity, AlertCircle, ArrowRight, Sparkles, CheckCircle2, User, ArrowLeft } from 'lucide-react'
 
-export default function Auth({ onAuthSuccess }) {
-  const [isSignUp, setIsSignUp] = useState(false)
+export default function Auth({ onAuthSuccess, initialIsSignUp = false, onCancel }) {
+  const [isSignUp, setIsSignUp] = useState(initialIsSignUp)
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -46,6 +46,17 @@ export default function Auth({ onAuthSuccess }) {
       
       <div className="max-w-md w-full glass-panel rounded-3xl p-8 border border-zinc-800 bg-zinc-900/60 shadow-2xl relative z-10 glow-orange">
         
+        {onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="absolute top-5 left-5 text-zinc-500 hover:text-zinc-300 transition-all p-1.5 hover:bg-zinc-800/40 rounded-xl cursor-pointer flex items-center gap-1 text-[11px] font-bold tracking-wide uppercase"
+          >
+            <ArrowLeft size={13} />
+            <span>Home</span>
+          </button>
+        )}
+
         {/* Brand Header */}
         <div className="flex flex-col items-center text-center mb-8">
           <div className="p-3.5 bg-orange-500 rounded-2xl text-black shadow-lg shadow-orange-500/20 mb-4 ring-4 ring-orange-500/10">
