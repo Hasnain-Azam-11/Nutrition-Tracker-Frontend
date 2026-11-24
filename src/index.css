@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+html {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -7,13 +12,34 @@ body {
   color: #f4f4f5;
   font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #root {
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   display: flex;
   flex-direction: column;
   background-color: #09090b;
+  overflow-x: hidden;
+}
+
+/* iOS Safari: Prevent automatic zoom on input focus by enforcing >= 16px */
+input,
+select,
+textarea {
+  font-size: 16px !important;
+}
+
+/* Ensure mobile tap targets meet Apple HIG (minimum 44x44px for standalone buttons) */
+.touch-target-44 {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @layer utilities {

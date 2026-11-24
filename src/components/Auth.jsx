@@ -42,7 +42,7 @@ export default function Auth({ onAuthSuccess, initialIsSignUp = false, onCancel 
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-950 p-4 transition-colors duration-300">
+    <div className="min-h-screen flex items-center justify-center bg-zinc-950 p-4 pt-[calc(1rem+env(safe-area-inset-top,0px))] pb-[calc(1rem+env(safe-area-inset-bottom,0px))] transition-colors duration-300">
       
       <div className="max-w-md w-full glass-panel rounded-3xl p-8 border border-zinc-800 bg-zinc-900/60 shadow-2xl relative z-10 glow-orange">
         
@@ -50,7 +50,7 @@ export default function Auth({ onAuthSuccess, initialIsSignUp = false, onCancel 
           <button
             type="button"
             onClick={onCancel}
-            className="absolute top-5 left-5 text-zinc-500 hover:text-zinc-300 transition-all p-1.5 hover:bg-zinc-800/40 rounded-xl cursor-pointer flex items-center gap-1 text-[11px] font-bold tracking-wide uppercase"
+            className="absolute top-5 left-5 text-zinc-500 hover:text-zinc-300 transition-all min-h-[44px] min-w-[44px] hover:bg-zinc-800/40 rounded-xl cursor-pointer flex items-center justify-center gap-1 text-[11px] font-bold tracking-wide uppercase"
           >
             <ArrowLeft size={13} />
             <span>Home</span>
@@ -63,7 +63,7 @@ export default function Auth({ onAuthSuccess, initialIsSignUp = false, onCancel 
             <Activity size={32} className="animate-pulse" />
           </div>
           <h1 className="text-3xl font-extrabold text-zinc-100 tracking-tight">
-            VoiceDiet
+            Bitewise
           </h1>
           <p className="text-zinc-400 text-sm mt-1">
             Speak your meals. Track your macros.

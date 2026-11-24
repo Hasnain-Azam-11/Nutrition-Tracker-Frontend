@@ -98,14 +98,14 @@ export default function LandingPage({ onGetStarted }) {
       <div className="absolute top-1/3 right-1/4 w-[450px] h-[450px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       {/* HEADER NAVBAR */}
-      <header className="glass-panel border-b border-zinc-800/80 px-6 py-4 sticky top-0 backdrop-blur-md z-45 bg-zinc-950/80">
+      <header className="glass-panel border-b border-zinc-800/80 px-6 pb-4 pt-[calc(1rem+env(safe-area-inset-top,0px))] sticky top-0 backdrop-blur-md z-45 bg-zinc-950/80">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="p-2 bg-orange-500 rounded-xl text-black shadow-md shadow-orange-500/20">
               <Activity size={20} />
             </div>
             <span className="font-extrabold text-xl text-zinc-100 tracking-tight">
-              VoiceDiet
+              Bitewise
             </span>
           </div>
 
@@ -204,7 +204,7 @@ export default function LandingPage({ onGetStarted }) {
               See It in Action
             </h2>
             <p className="text-zinc-400 text-sm mt-2 max-w-md mx-auto">
-              Click the button below to simulate how VoiceDiet transcribes and analyzes a meal instantly.
+              Click the button below to simulate how Bitewise transcribes and analyzes a meal instantly.
             </p>
           </div>
 
@@ -470,17 +470,17 @@ export default function LandingPage({ onGetStarted }) {
       </section>
 
       {/* FOOTER */}
-      <footer className="mt-auto border-t border-zinc-900 py-10 px-6 text-center text-xs text-zinc-500 bg-zinc-950">
+      <footer className="mt-auto border-t border-zinc-900 py-10 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] px-6 text-center text-xs text-zinc-500 bg-zinc-950">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
             <div className="p-1.5 bg-orange-500 rounded-lg text-black">
               <Activity size={14} />
             </div>
             <span className="font-extrabold text-sm text-zinc-300">
-              VoiceDiet
+              Bitewise
             </span>
           </div>
-          <p>© 2026 VoiceDiet Inc. All rights reserved. Powered by AI and SimpleJWT.</p>
+          <p>© 2026 Bitewise Inc. All rights reserved. Powered by AI and SimpleJWT.</p>
         </div>
       </footer>
 

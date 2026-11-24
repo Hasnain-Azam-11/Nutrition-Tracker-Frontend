@@ -363,8 +363,9 @@ export default function VoiceLogger({ onLogComplete, onCancel }) {
                 >
                   <button
                     onClick={() => deleteFoodCard(food.id)}
-                    className="absolute top-4 right-4 text-zinc-550 hover:text-rose-400 transition-colors duration-200 cursor-pointer"
+                    className="absolute top-2 right-2 text-zinc-500 hover:text-rose-400 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors duration-200 cursor-pointer"
                     title="Remove item"
+                    aria-label="Remove item"
                   >
                     <Trash2 size={16} />
                   </button>

@@ -286,7 +286,8 @@ export default function Dashboard({ onAddClick, refreshTrigger }) {
         <div className="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1 rounded-2xl shadow-lg">
           <button
             onClick={handlePrevDay}
-            className="p-2 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 rounded-xl transition-all cursor-pointer"
+            className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 rounded-xl transition-all cursor-pointer"
+            aria-label="Previous Day"
           >
             <ChevronLeft size={18} />
           </button>
@@ -298,7 +299,8 @@ export default function Dashboard({ onAddClick, refreshTrigger }) {
 
           <button
             onClick={handleNextDay}
-            className="p-2 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 rounded-xl transition-all cursor-pointer"
+            className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 rounded-xl transition-all cursor-pointer"
+            aria-label="Next Day"
           >
             <ChevronRight size={18} />
           </button>
@@ -308,14 +310,14 @@ export default function Dashboard({ onAddClick, refreshTrigger }) {
           {selectedDate !== new Date().toISOString().split('T')[0] && (
             <button
               onClick={handleToday}
-              className="px-4 py-2 border border-zinc-850 bg-zinc-900/40 hover:bg-zinc-900 text-zinc-300 font-extrabold text-xs rounded-xl cursor-pointer transition-colors duration-200"
+              className="px-4 py-2.5 min-h-[44px] border border-zinc-850 bg-zinc-900/40 hover:bg-zinc-900 text-zinc-300 font-extrabold text-xs rounded-xl cursor-pointer transition-colors duration-200"
             >
               Today
             </button>
           )}
           <button
             onClick={onAddClick}
-            className="px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black font-black text-xs rounded-xl shadow-md shadow-orange-500/20 flex items-center gap-1.5 cursor-pointer transition-all duration-200"
+            className="px-4 py-2.5 min-h-[44px] bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black font-black text-xs rounded-xl shadow-md shadow-orange-500/20 flex items-center gap-1.5 cursor-pointer transition-all duration-200"
           >
             <Plus size={14} />
             <span>Add Food</span>
@@ -608,17 +610,19 @@ export default function Dashboard({ onAddClick, refreshTrigger }) {
                           <>
                             <button
                               onClick={() => startEditing(log)}
-                              className="p-2 hover:bg-zinc-800 text-zinc-500 hover:text-zinc-200 rounded-xl transition-all cursor-pointer"
+                              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-zinc-800 text-zinc-500 hover:text-zinc-200 rounded-xl transition-all cursor-pointer"
                               title="Edit Portion"
+                              aria-label="Edit Portion"
                             >
-                              <Edit3 size={14} />
+                              <Edit3 size={15} />
                             </button>
                             <button
                               onClick={() => handleDeleteLog(log.id)}
-                              className="p-2 hover:bg-zinc-800 text-zinc-500 hover:text-rose-400 rounded-xl transition-all cursor-pointer"
+                              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-zinc-800 text-zinc-500 hover:text-rose-400 rounded-xl transition-all cursor-pointer"
                               title="Delete Log"
+                              aria-label="Delete Log"
                             >
-                              <Trash2 size={14} />
+                              <Trash2 size={15} />
                             </button>
                           </>
                         )}
