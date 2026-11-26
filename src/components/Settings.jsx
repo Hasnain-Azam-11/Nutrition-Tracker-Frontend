@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { api } from '../lib/api'
+import { api, isAuthenticated } from '../lib/api'
 import { Save, CheckCircle2, AlertCircle, RefreshCw, Calculator, Sliders, Bone, Sparkles, Zap, Brain, Droplet } from 'lucide-react'
 
-export default function Settings() {
+export default function Settings({ onAuthRequired }) {
   const [goalsId, setGoalsId] = useState(null)
   const [goals, setGoals] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -20,6 +20,10 @@ export default function Settings() {
 
   // Load goals and profile from DB on mount
   const loadSettings = async () => {
+    if (!isAuthenticated()) {
+      setLoading(false)
+      return
+    }
     setLoading(true)
     setError('')
     try {
@@ -110,6 +114,32 @@ export default function Settings() {
     } finally {
       setSaving(false)
     }
+  }
+
+  if (!isAuthenticated()) {
+    return (
+      <div className="w-full max-w-2xl mx-auto p-4 md:p-6 transition-all duration-300">
+        <h2 className="text-2xl font-bold text-zinc-100 mb-6 flex items-center gap-2">
+          <Sliders size={24} className="text-orange-500" />
+          <span>Nutritional Goals</span>
+        </h2>
+        <div className="glass-panel bg-zinc-900/60 border border-zinc-800 p-10 rounded-3xl text-center flex flex-col items-center justify-center space-y-4 shadow-xl">
+          <div className="p-4 bg-zinc-950 rounded-2xl border border-zinc-800 text-orange-500 shadow-lg glow-orange">
+            <Sliders size={32} />
+          </div>
+          <h3 className="text-lg font-bold text-zinc-100">Sign in to customize your goals</h3>
+          <p className="text-xs text-zinc-400 max-w-sm leading-relaxed">
+            Calculate your TDEE, customize macronutrient targets, and configure personalized micronutrient goals when signed in.
+          </p>
+          <button
+            onClick={() => onAuthRequired && onAuthRequired('signin')}
+            className="px-6 py-3 min-h-[44px] bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black font-extrabold text-xs rounded-xl shadow-md shadow-orange-500/20 cursor-pointer transition-all"
+          >
+            Sign In to Account
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (

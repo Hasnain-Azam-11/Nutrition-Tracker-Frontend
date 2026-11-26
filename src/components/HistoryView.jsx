@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { api } from '../lib/api'
-import { Calendar, ChevronRight, ChevronDown, Activity, Sparkles, TrendingUp } from 'lucide-react'
+import { api, isAuthenticated } from '../lib/api'
+import { Calendar, ChevronRight, ChevronDown, Activity, Sparkles, TrendingUp, History } from 'lucide-react'
 
-export default function HistoryView() {
+export default function HistoryView({ onAuthRequired }) {
   const [historyDays, setHistoryDays] = useState([])
   const [weeklyAverages, setWeeklyAverages] = useState({ calories: 0, protein: 0 })
   const [loading, setLoading] = useState(true)
@@ -11,6 +11,11 @@ export default function HistoryView() {
 
   // Load history data for the past 7 days
   const loadHistory = async () => {
+    if (!isAuthenticated()) {
+      setLoading(false)
+      setHistoryDays([])
+      return
+    }
     setLoading(true)
     setError('')
     try {
@@ -88,6 +93,32 @@ export default function HistoryView() {
 
   const maxCalories = Math.max(...historyDays.map(d => d.totals.calories), 2000)
   const maxProtein = Math.max(...historyDays.map(d => d.totals.protein), 100)
+
+  if (!isAuthenticated()) {
+    return (
+      <div className="w-full max-w-4xl mx-auto p-4 md:p-6 transition-all duration-300">
+        <h2 className="text-2xl font-bold text-zinc-100 mb-6 flex items-center gap-2">
+          <TrendingUp size={24} className="text-orange-500" />
+          <span>Weekly Intake History</span>
+        </h2>
+        <div className="glass-panel bg-zinc-900/60 border border-zinc-800 p-10 rounded-3xl text-center flex flex-col items-center justify-center space-y-4 shadow-xl">
+          <div className="p-4 bg-zinc-950 rounded-2xl border border-zinc-800 text-orange-500 shadow-lg glow-orange">
+            <History size={32} />
+          </div>
+          <h3 className="text-lg font-bold text-zinc-100">Sign in to view your history</h3>
+          <p className="text-xs text-zinc-400 max-w-sm leading-relaxed">
+            Your 7-day nutritional trends, calorie averages, and food log timeline will appear here once you sign in.
+          </p>
+          <button
+            onClick={() => onAuthRequired && onAuthRequired('signin')}
+            className="px-6 py-3 min-h-[44px] bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black font-extrabold text-xs rounded-xl shadow-md shadow-orange-500/20 cursor-pointer transition-all"
+          >
+            Sign In to Account
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 md:p-6 transition-all duration-300">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { api } from '../lib/api'
+import { api, isAuthenticated } from '../lib/api'
 import {
   ChevronLeft, ChevronRight, Calendar, Plus, Trash2, Edit3,
   Activity, Sparkles, Check, AlertCircle, Bone, Heart, Zap, Utensils, Brain, Droplet
@@ -109,7 +109,7 @@ const NUTRIENT_CATEGORIES = [
   },
 ]
 
-export default function Dashboard({ onAddClick, refreshTrigger }) {
+export default function Dashboard({ onAddClick, refreshTrigger, currentUser, onAuthRequired }) {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
   const [logs, setLogs] = useState([])
   const [goals, setGoals] = useState(DEFAULT_GOALS)
@@ -123,6 +123,12 @@ export default function Dashboard({ onAddClick, refreshTrigger }) {
   const [editUnit, setEditUnit] = useState('serving')
 
   const fetchData = async () => {
+    if (!isAuthenticated()) {
+      setLoading(false)
+      setLogs([])
+      setError('')
+      return
+    }
     setLoading(true)
     setError('')
     try {
@@ -150,7 +156,7 @@ export default function Dashboard({ onAddClick, refreshTrigger }) {
 
   useEffect(() => {
     fetchData()
-  }, [selectedDate, refreshTrigger])
+  }, [selectedDate, refreshTrigger, currentUser])
 
   // Date handlers
   const handlePrevDay = () => {
@@ -280,6 +286,35 @@ export default function Dashboard({ onAddClick, refreshTrigger }) {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 md:p-6 transition-all duration-300">
+
+      {/* Guest Welcome Banner */}
+      {!currentUser && (
+        <div className="glass-panel rounded-3xl p-5 sm:p-6 bg-gradient-to-r from-orange-500/10 via-zinc-900/60 to-zinc-900/60 border border-orange-500/25 shadow-xl mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="p-3 bg-orange-500/20 rounded-2xl text-orange-400 border border-orange-500/30 shrink-0">
+              <Sparkles size={22} />
+            </div>
+            <div>
+              <h2 className="text-sm sm:text-base font-extrabold text-zinc-100">Welcome to Bitewise</h2>
+              <p className="text-xs text-zinc-400 mt-0.5">Explore the tracker below. Sign in anytime to log meals with voice AI, track macros, and view history.</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
+            <button
+              onClick={() => onAuthRequired && onAuthRequired('signin')}
+              className="flex-1 sm:flex-none px-4 py-2 min-h-[40px] rounded-xl border border-zinc-700 bg-zinc-900/80 hover:bg-zinc-800 text-xs font-bold text-zinc-200 transition-all cursor-pointer"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => onAuthRequired && onAuthRequired('signup')}
+              className="flex-1 sm:flex-none px-4 py-2 min-h-[40px] rounded-xl bg-orange-500 hover:bg-orange-400 text-black text-xs font-black shadow-md shadow-orange-500/20 transition-all cursor-pointer"
+            >
+              Sign Up Free
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Date Switcher Section */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
@@ -543,6 +578,13 @@ export default function Dashboard({ onAddClick, refreshTrigger }) {
                 <p className="text-xs text-zinc-500 max-w-xs leading-relaxed">
                   Tap the mic or describe what you ate to see calories and real-time macros breakdown!
                 </p>
+                <button
+                  onClick={onAddClick}
+                  className="mt-1 px-4 py-2.5 min-h-[44px] bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black font-extrabold text-xs rounded-xl shadow-md shadow-orange-500/20 cursor-pointer transition-all flex items-center gap-1.5"
+                >
+                  <Plus size={14} />
+                  <span>{currentUser ? 'Add Food' : 'Sign in to Log Food'}</span>
+                </button>
               </div>
             ) : (
               <div className="space-y-2">

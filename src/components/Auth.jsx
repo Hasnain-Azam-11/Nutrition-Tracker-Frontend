@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { api } from '../lib/api'
-import { Mail, Lock, Activity, AlertCircle, ArrowRight, Sparkles, CheckCircle2, User, ArrowLeft } from 'lucide-react'
+import { Mail, Lock, Activity, AlertCircle, ArrowRight, Sparkles, CheckCircle2, User, X } from 'lucide-react'
 
 export default function Auth({ onAuthSuccess, initialIsSignUp = false, onCancel }) {
   const [isSignUp, setIsSignUp] = useState(initialIsSignUp)
@@ -10,6 +10,12 @@ export default function Auth({ onAuthSuccess, initialIsSignUp = false, onCancel 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    setIsSignUp(initialIsSignUp)
+    setError('')
+    setMessage('')
+  }, [initialIsSignUp])
 
   const handleAuth = async (e) => {
     e.preventDefault()
@@ -42,18 +48,18 @@ export default function Auth({ onAuthSuccess, initialIsSignUp = false, onCancel 
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-950 p-4 pt-[calc(1rem+env(safe-area-inset-top,0px))] pb-[calc(1rem+env(safe-area-inset-bottom,0px))] transition-colors duration-300">
+    <div className="w-full max-w-md mx-auto my-auto p-4 transition-colors duration-300">
       
-      <div className="max-w-md w-full glass-panel rounded-3xl p-8 border border-zinc-800 bg-zinc-900/60 shadow-2xl relative z-10 glow-orange">
+      <div className="w-full glass-panel rounded-3xl p-6 sm:p-8 border border-zinc-800 bg-zinc-900/95 shadow-2xl relative z-10 glow-orange">
         
         {onCancel && (
           <button
             type="button"
             onClick={onCancel}
-            className="absolute top-5 left-5 text-zinc-500 hover:text-zinc-300 transition-all min-h-[44px] min-w-[44px] hover:bg-zinc-800/40 rounded-xl cursor-pointer flex items-center justify-center gap-1 text-[11px] font-bold tracking-wide uppercase"
+            className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-100 transition-all min-h-[44px] min-w-[44px] hover:bg-zinc-800/60 rounded-xl cursor-pointer flex items-center justify-center"
+            aria-label="Close"
           >
-            <ArrowLeft size={13} />
-            <span>Home</span>
+            <X size={20} />
           </button>
         )}
 
